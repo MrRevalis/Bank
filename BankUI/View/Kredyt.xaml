@@ -1,0 +1,120 @@
+﻿<UserControl x:Class="BankUI.View.Kredyt"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             xmlns:local="clr-namespace:BankUI.View"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Loaded">
+            <i:InvokeCommandAction Command="{Binding OnLoad}" />
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
+    <Grid x:Name="MainGrid" Background="White">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <Border BorderThickness="0 0 0 1" Padding="5" BorderBrush="Gray">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="5*"/>
+                    <ColumnDefinition Width="5*" />
+                </Grid.ColumnDefinitions>
+                <StackPanel Grid.Column="0" Orientation="Horizontal" HorizontalAlignment="Left">
+                    <Label Content="{Binding RActiveAccount}" FontSize="14" />
+                    <ComboBox x:Name="combo" IsEditable="False" ItemsSource="{Binding ListaKont}" SelectedIndex="{Binding ListaKontIndex}">
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="SelectionChanged">
+                                <i:InvokeCommandAction Command="{Binding ZmienKonto}" />
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </ComboBox>
+                </StackPanel>
+                <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
+                    <Label Content="{Binding UserName}" FontSize="14" />
+                    <Button Style="{StaticResource RoundButtonTemplate}" Command="{Binding Wyloguj}" Content="{Binding RLogout}" FontSize="12" Margin="5 0" Padding="4 0" />
+                </StackPanel>
+            </Grid>
+        </Border>
+
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="4*" />
+                <ColumnDefinition Width="2*" />
+                <ColumnDefinition Width="4*" />
+            </Grid.ColumnDefinitions>
+            <StackPanel Grid.Column="0" Orientation="Horizontal" HorizontalAlignment="Left" Margin="5" >
+                <Button Style="{StaticResource BigRoundButtonTemplate}" Content="{Binding RTransfers}" Command="{Binding GoTo}" CommandParameter="przelew" />
+                <Button Style="{StaticResource BigRoundButtonTemplate}" Content="{Binding RAccount}" Command="{Binding GoTo}" CommandParameter="panelGlowny" />
+                <Button Style="{StaticResource BigRoundButtonTemplate}" Content="{Binding RCards}" Command="{Binding GoTo}" CommandParameter="karty" />
+            </StackPanel>
+            <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Center" Margin="5" >
+                <Button Style="{StaticResource BigRoundButtonTemplate}" Content="{Binding RTakeLoan}" Command="{Binding GoTo}" CommandParameter="nowyKredyt" />
+            </StackPanel>
+            <StackPanel Grid.Column="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="5" >
+                <Button Style="{StaticResource BigRoundButtonTemplate}" Content="{Binding RMyData}" Command="{Binding GoTo}" CommandParameter="daneOsobowe" />
+                <Button Style="{StaticResource BigRoundButtonTemplate}" Content="{Binding RLoginHistory}" Command="{Binding GoTo}" CommandParameter="historiaLogowan" />
+            </StackPanel>
+        </Grid>
+
+        <DataGrid Grid.Row="2" ItemsSource="{Binding Lista}" AutoGenerateColumns="False" CanUserAddRows="False">
+            <DataGrid.Columns>
+                <DataGridTextColumn FontSize="16" Width="2*" IsReadOnly="True" Binding="{Binding WartoscString}" CellStyle="{StaticResource asd}">
+                    <DataGridTextColumn.HeaderTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding ElementName=MainGrid, Path=DataContext.RLoanValue}"/>
+                        </DataTemplate>
+                    </DataGridTextColumn.HeaderTemplate>
+                </DataGridTextColumn>
+                <DataGridTextColumn FontSize="16" Width="2*" IsReadOnly="True" Binding="{Binding SplaconoString}" CellStyle="{StaticResource asd}">
+                    <DataGridTextColumn.HeaderTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding ElementName=MainGrid, Path=DataContext.RPaidBack}"/>
+                        </DataTemplate>
+                    </DataGridTextColumn.HeaderTemplate>
+                </DataGridTextColumn>
+                <DataGridTextColumn FontSize="16" Width="2*" IsReadOnly="True" Binding="{Binding DataSplaty}" CellStyle="{StaticResource asd}">
+                    <DataGridTextColumn.HeaderTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding ElementName=MainGrid, Path=DataContext.RPayDate}"/>
+                        </DataTemplate>
+                    </DataGridTextColumn.HeaderTemplate>
+                </DataGridTextColumn>
+                <DataGridTextColumn FontSize="16" Width="5*" IsReadOnly="True" Binding="{Binding NumerKonta}" CellStyle="{StaticResource asd}">
+                    <DataGridTextColumn.HeaderTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding ElementName=MainGrid, Path=DataContext.RAccountNumber}"/>
+                        </DataTemplate>
+                    </DataGridTextColumn.HeaderTemplate>
+                </DataGridTextColumn>
+                <DataGridTextColumn FontSize="16" Width="1*" IsReadOnly="True" Binding="{Binding OprocentowanieString}" CellStyle="{StaticResource asd}">
+                    <DataGridTextColumn.HeaderTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding ElementName=MainGrid, Path=DataContext.RInterest}"/>
+                        </DataTemplate>
+                    </DataGridTextColumn.HeaderTemplate>
+                </DataGridTextColumn>
+                <DataGridTextColumn FontSize="16" Width="2*" IsReadOnly="True" Binding="{Binding RataString}" CellStyle="{StaticResource asd}">
+                    <DataGridTextColumn.HeaderTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding ElementName=MainGrid, Path=DataContext.RInstallment}"/>
+                        </DataTemplate>
+                    </DataGridTextColumn.HeaderTemplate>
+                </DataGridTextColumn>
+                <DataGridTemplateColumn>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Button Style="{StaticResource RoundButtonTemplate}" Command="{Binding ElementName=MainGrid, Path=DataContext.SplacRate}" CommandParameter="{Binding IDKredytu}" Content="{Binding ElementName=MainGrid, Path=DataContext.RPayInstall}"/> 
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+
+    </Grid>
+</UserControl>

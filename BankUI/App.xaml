@@ -1,0 +1,60 @@
+﻿<Application x:Class="BankUI.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:BankUI"
+             xmlns:vm="clr-namespace:BankUI.ViewModel"
+             xmlns:convter="clr-namespace:BankUI.ViewModel.Converters"
+             xmlns:okna="clr-namespace:BankUI.View"
+             >
+    <Application.Resources>
+
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Style/Texts.xaml"></ResourceDictionary>
+                <ResourceDictionary Source="Style/Buttons.xaml"></ResourceDictionary>
+            </ResourceDictionary.MergedDictionaries>
+
+
+            <convter:DoubleToStringConverter x:Key="DoubleToStringConverter" />
+            
+            <!-- DEFINICJA STRON -->
+            <DataTemplate DataType="{x:Type vm:LoginVM}">
+                <okna:Login />
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type vm:PanelGlownyVM}">
+                <okna:PanelGlowny />
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type vm:PrzelewVM}">
+                <okna:Przelew />
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type vm:RejestracjaVM}">
+                <okna:Rejestracja></okna:Rejestracja>
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type vm:HistoriaLogowanVM}">
+                <okna:HistoriaLogowan />
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type vm:DaneOsoboweVM}">
+                <okna:DaneOsobowe />
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type vm:KredytVM}">
+                <okna:Kredyt />
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type vm:NowyKredytVM}">
+                <okna:NowyKredyt />
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type vm:KartyVM}">
+                <okna:Karty />
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type vm:LBankomatVM}">
+                <okna:LBankomat></okna:LBankomat>
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type vm:BankomatVM}">
+                <okna:Bankomat></okna:Bankomat>
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type vm:KartaVM}">
+                <okna:Karta />
+            </DataTemplate>
+
+        </ResourceDictionary>
+    </Application.Resources>
+</Application>

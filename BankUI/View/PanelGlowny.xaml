@@ -1,0 +1,130 @@
+﻿<UserControl x:Class="BankUI.View.PanelGlowny"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             xmlns:local="clr-namespace:BankUI.View"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Loaded">
+            <i:InvokeCommandAction Command="{Binding OnLoad}" />
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
+    <Grid x:Name="MainGrid" Background="White">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <Border BorderThickness="0 0 0 1" Padding="5" BorderBrush="Gray">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="5*"/>
+                    <ColumnDefinition Width="5*" />
+                </Grid.ColumnDefinitions>
+                <StackPanel Grid.Column="0" Orientation="Horizontal" HorizontalAlignment="Left">
+                    <Label Content="{Binding RActiveAccount}" FontSize="14" />
+                    <ComboBox x:Name="combo" IsEditable="False" ItemsSource="{Binding ListaKont}" SelectedIndex="{Binding ListaKontIndex}">
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="SelectionChanged">
+                                <i:InvokeCommandAction Command="{Binding ZmienKonto}" />
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </ComboBox>
+                </StackPanel>
+                <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
+                    <Label Content="{Binding UserName}" FontSize="14" />
+                    <!--<Expander Header="Moje dane" ExpandDirection="Left" FlowDirection="RightToLeft" >
+                        <Canvas FlowDirection="LeftToRight">
+                            <StackPanel Orientation="Vertical">
+                                <Button Content="Dane osobowe" />
+                                <Button Content="Historia logowań" />
+                            </StackPanel>
+                        </Canvas>
+                    </Expander>-->
+                    <Button Style="{StaticResource RoundButtonTemplate}" Command="{Binding Wyloguj}" Content="{Binding RLogout}" FontSize="12" Margin="5 0" Padding="4 0" />
+                </StackPanel>
+            </Grid>
+        </Border>
+
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="5*" />
+                <ColumnDefinition Width="5*" />
+                <ColumnDefinition Width="5*" />
+            </Grid.ColumnDefinitions>
+            <StackPanel Grid.Column="0" Orientation="Horizontal" HorizontalAlignment="Left" Margin="5" >
+                <Button Style="{StaticResource BigRoundButtonTemplate}" Content="{Binding RTransfers}" Command="{Binding GoTo}" CommandParameter="przelew" />
+                <Button Style="{StaticResource BigRoundButtonTemplate}" Content="{Binding RLoans}" Command="{Binding GoTo}" CommandParameter="kredyty" />
+                <Button Style="{StaticResource BigRoundButtonTemplate}" Content="{Binding RCards}" Command="{Binding GoTo}" CommandParameter="karty" />
+            </StackPanel>
+            <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Center" Margin="5" >
+                <Button Style="{StaticResource BigRoundButtonTemplate}" Content="{Binding RNewAccount}" Command="{Binding OtworzKonto}" />
+                <!--<Button Style="{StaticResource BigRoundButtonTemplate}" Content="{Binding RDeleteAccount}" />-->
+            </StackPanel>
+            <StackPanel Grid.Column="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="5" >
+                <Button Style="{StaticResource BigRoundButtonTemplate}" Content="{Binding RMyData}" Command="{Binding GoTo}" CommandParameter="daneOsobowe" />
+                <Button Style="{StaticResource BigRoundButtonTemplate}" Content="{Binding RLoginHistory}" Command="{Binding GoTo}" CommandParameter="historiaLogowan" />
+            </StackPanel>
+        </Grid>
+
+        <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Center">
+            <StackPanel Orientation="Vertical" HorizontalAlignment="Left">
+                <Label Content="{Binding TypKonta}" FontSize="17" />
+                <Label Content="{Binding Path=SelectedValue, ElementName=combo}" FontSize="13" Foreground="Gray" />
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center">
+                <Label Margin="10 0 0 0" Content="{Binding RBalance}" FontSize="17" />
+                <Label Content="{Binding Saldo}" FontSize="17" />
+            </StackPanel>
+        </StackPanel>
+
+
+
+        <DataGrid Grid.Row="4" ItemsSource="{Binding Lista}" AutoGenerateColumns="False">
+            <DataGrid.Columns>
+                <DataGridTextColumn FontSize="16" Width="4*" IsReadOnly="True" Binding="{Binding Data}" CellStyle="{StaticResource asd}">
+                    <DataGridTextColumn.HeaderTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding ElementName=MainGrid, Path=DataContext.RDate}"/>
+                        </DataTemplate>
+                    </DataGridTextColumn.HeaderTemplate>
+                </DataGridTextColumn>
+                <DataGridTextColumn FontSize="16" Width="5*" IsReadOnly="True" Binding="{Binding Person}" CellStyle="{StaticResource asd}">
+                    <DataGridTextColumn.HeaderTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding ElementName=MainGrid, Path=DataContext.RSenderRec}"/>
+                        </DataTemplate>
+                    </DataGridTextColumn.HeaderTemplate>
+                </DataGridTextColumn>
+                <DataGridTextColumn FontSize="16" Width="5*" IsReadOnly="True" Binding="{Binding Name}" CellStyle="{StaticResource asd}">
+                    <DataGridTextColumn.HeaderTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding ElementName=MainGrid, Path=DataContext.RTitle}"/>
+                        </DataTemplate>
+                    </DataGridTextColumn.HeaderTemplate>
+                </DataGridTextColumn>
+                <DataGridTextColumn FontSize="16" Width="2*" IsReadOnly="True" Binding="{Binding Type}" CellStyle="{StaticResource asd}">
+                    <DataGridTextColumn.HeaderTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding ElementName=MainGrid, Path=DataContext.ROpType}"/>
+                        </DataTemplate>
+                    </DataGridTextColumn.HeaderTemplate>
+                </DataGridTextColumn>
+                <DataGridTextColumn FontSize="16" Width="3*" IsReadOnly="True" Binding="{Binding Amount}" CellStyle="{StaticResource asd}">
+                    <DataGridTextColumn.HeaderTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding ElementName=MainGrid, Path=DataContext.RAmount}"/>
+                        </DataTemplate>
+                    </DataGridTextColumn.HeaderTemplate>
+                </DataGridTextColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+
+    </Grid>
+</UserControl>
